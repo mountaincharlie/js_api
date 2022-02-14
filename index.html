@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content"></div>
+
+    <!-- inline for now -->
+    <script>
+        /** 
+         * using fetch to get the SW api
+         * arrow function used to store the response as text
+         * inserting the returned data into the innerText of id="content"
+         * 
+         * fetch() promises to get data from the api
+         * and then() is what we do with the data once recieved
+         * 
+         * in this case the 'response.text()' also returns a promise
+         * therefore there is a second then()
+         * ['data' and 'response']
+         * 
+         * catch added to display in the console if something goes wrong
+         * 
+         * Asynchronous - tasks dont have to wait for another task to finish inorder to execute themselves [promises are an example of this]
+         * Callbacks - functions which run once an asynchronous task has been completed
+        */
+        fetch("https://ci-swapi.herokuapp.com/api/")
+            .then(response => response.text())  // or .json
+            .then(data => displayData(data))
+            .catch((e) => {
+                console.error("Error: ", e);
+            })
+
+            // callback function used to disply the data in the div
+            function displayData(data){
+                document.getElementById("content").innerText = data; // use dot notation for specific keys from the object
+            }
+    </script>
+</body>
+</html>
