@@ -1,7 +1,7 @@
 // API setup constant 
 const API_KEY = "bgF6tfs0ZZA53GUd5a8X4x6-Vr4";
 const API_URL = "https://ci-jshint.herokuapp.com/api";
-const resultModal = new bootstrap.Modal(document.getElementById("resultsModal"));  // reference to the bootstrap modal
+const resultsModal = new bootstrap.Modal(document.getElementById("resultsModal"));  // reference to the bootstrap modal
 
 // wiring up the ___ button when clicked
 document.getElementById("status").addEventListener("click", e => getStatus(e));
@@ -16,9 +16,16 @@ async function getStatus(e){
     const data = await response.json();
     // error checking - checking if the response = ok
     if (response.ok){
-        console.log(data.expiry);
-    };
-
-}
+        displayStatus(data);
+        // console.log(data);
+    } else {
+        throw new Error(data.error);  // throwing the descriptive msg from json
+    }
+};
 
 // Passing the data to the display function
+function displayStatus(data){
+    document.getElementById("resultsModalTitle").innerText = "API Key Status";
+    document.getElementById("results-content").innerText = `Your key is valid until\n${data.expiry}`;
+    resultsModal.show();
+}
