@@ -14,10 +14,25 @@ document.getElementById("submit").addEventListener("click", e => postForm(e));
 
 // ----------------- POST request for the api to check our JS code
 
+// fixing subtle error from having multiple options selected
+function processOptions(form){
+    // new array to put all the options values in
+    let optionsArray = [];
+    for (let entry of form.entries()){
+        if (entry[0] === 'options'){
+            optionsArray.push(entry[1]);
+        }
+    }
+    // removing all occurances of options and appending new array
+    form.delete("options");
+    form.append("options", optionsArray.join());
+    return form;
+};
+
 // POST request to the API_URL with API_KEY and form data - uses async function
 async function postForm(e){
     // FormData method to convert form data into an object
-    const form = new FormData(document.getElementById("checksform"));
+    const form = processOptions(new FormData(document.getElementById("checksform")));
 
     // test for checking the data is taken correctly from the form
     // for (let entry of form.entries()){
