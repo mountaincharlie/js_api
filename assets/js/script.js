@@ -55,6 +55,7 @@ async function postForm(e){
         displayErrors(data);
         // console.log(data);
     } else {
+        displayException(data);
         throw new Error(data.error);  // throwing the descriptive msg from json
     }
 };
@@ -95,6 +96,7 @@ async function getStatus(e){
         displayStatus(data);
         // console.log(data);
     } else {
+        displayException(data);
         throw new Error(data.error);  // throwing the descriptive msg from json
     }
 };
@@ -105,3 +107,13 @@ function displayStatus(data){
     document.getElementById("results-content").innerHTML = `<div>Your key is valid until<br>${data.expiry}</div>`;
     resultsModal.show();
 }
+
+
+// ----------------- displaying errors in the modal
+
+// called before any 'throw's to the console
+function displayException(data){
+    document.getElementById("resultsModalTitle").innerText = `An Exception Occured`;
+    document.getElementById("results-content").innerHTML = `<div>The API returned status code ${data.status_code}<br>Error number: <strong>${data.error_no}</strong><br>Error text: <strong>${data.error}</strong></div>`;
+    resultsModal.show();
+};
